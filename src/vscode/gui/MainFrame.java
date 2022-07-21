@@ -5,6 +5,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.util.Hashtable;
 import java.awt.event.*;
 
@@ -20,6 +21,8 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.JTextArea;
+import java.awt.Toolkit;
 
 public class MainFrame extends JFrame {
 
@@ -28,9 +31,11 @@ public class MainFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = -232216577877170594L;
 	private static final ImageIcon amogusIcon = new ImageIcon(MainFrame.class.getResource("/vscode/assets/amogus.ico"));
+	private static final Image MCU_IMAGE = Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/vscode/assets/mcu.ico"));
 	public static final int MIN_WIDTH = 1;
 	private JPanel contentPane;
 	public JSlider potentiometer;
+	public JTextArea mousePointerArea;
 	
 
 	/**
@@ -63,6 +68,8 @@ public class MainFrame extends JFrame {
 	 * Create the frame.
 	 */
 	public MainFrame() {
+		setIconImage(MCU_IMAGE);
+		setTitle("SerialGUI\r\n");
 		setSize(new Dimension(580, 600)); // Blah
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //		setVisible(true);
@@ -73,9 +80,17 @@ public class MainFrame extends JFrame {
 		addComponentListener(new FrameListen());
 		JPanel MouseCoordinatePanel = new JPanel();
 		Border bevel = new BevelBorder(BevelBorder.LOWERED);
-		Border title = new TitledBorder(bevel, "Placeholder", TitledBorder.CENTER, TitledBorder.TOP);
+		Border title = new TitledBorder(bevel, "Placeholder", TitledBorder.CENTER, TitledBorder.ABOVE_TOP);
 		MouseCoordinatePanel.setBorder(title);
 		contentPane.add(MouseCoordinatePanel);
+		MouseCoordinatePanel.setLayout(new BoxLayout(MouseCoordinatePanel, BoxLayout.X_AXIS));
+		
+		mousePointerArea = new JTextArea();
+		mousePointerArea.setBackground(UIManager.getColor("MenuItem.selectionBackground"));
+		mousePointerArea.setEnabled(false);
+		mousePointerArea.setEditable(false);
+		mousePointerArea.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		MouseCoordinatePanel.add(mousePointerArea);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane);
